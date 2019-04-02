@@ -3,7 +3,7 @@
 
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
-to transform a second array from the first using a shift factor*/
+to transform a second array from the first using a shift factor   f*/
 char encrypt(char *x, char *y, char shift);
 
 char decrypt(char *x, char *y, char shiftBack);
