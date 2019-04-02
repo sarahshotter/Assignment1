@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
@@ -10,7 +12,7 @@ char decrypt(char *x, char *y, char shiftBack);
 
 int main() {
     char alpha[26], alphaCopy[26]; //Declaration of 2 arrays of length 26
-    char k;
+    char k = 5, g = -5;
     int i; 
     
     for (i = 0; i < 26; i++) { //array with 26 elements
@@ -24,7 +26,7 @@ int main() {
     encrypt(alpha, alphaCopy, k);
     printf("%s\n", alphaCopy);
     
-    decrypt(alpha, alphaCopy, k);
+    decrypt(alpha, alphaCopy, g);
     printf("%s\n", alphaCopy);
     
     return 0;
@@ -33,9 +35,8 @@ int main() {
 /*Definition of the encrypt function occurs after the int main() code block*/
 
 char encrypt(char *x, char *y, char shift) {
-    printf("Enter a shift value:    "); //printf encourages the user to input a value to shift the ASCII values by
-    scanf("%d", &shift);    //scanf allocates the value input by the user to a memory address, in this case it is shift, 
-                            //which will be used as the shift factor for the function 
+    printf("Enter a shift value:    ");
+    scanf("%c", &shift);
     
     int indexT, index; //indexT represents a temporary index, and index that of the elements in the arrays
     
@@ -57,11 +58,12 @@ char encrypt(char *x, char *y, char shift) {
     for (indexT = 0; indexT < tempShift; indexT++) {
         y[26 - tempShift + indexT] = x[indexT];
     }
+    return 0;
 }
 
 char decrypt(char *x, char *y, char shiftBack) {
 	
-	char ind, tempIndex; //the indices for the arrays and the temporary indices
+	int ind, tempIndex; //the indices for the arrays and the temporary indices
 	
 	char tempShiftBack = abs((26 + shiftBack)%26);
 	
@@ -72,5 +74,5 @@ char decrypt(char *x, char *y, char shiftBack) {
 	for (ind = 0; ind < 26 - tempShiftBack; ind++) {
 		x[ind + tempShiftBack] = y[ind];
 	}
-	
+	return 0;
 }
