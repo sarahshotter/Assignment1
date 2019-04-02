@@ -6,20 +6,18 @@
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
 to transform a second array from the first using a shift factor   f*/
-char encrypt(char *x, char *y, char shift);
+char encrypt(char *x, char shift);
 
-char decrypt(char *x, char *y, char shiftBack);
+char decrypt(char *x, char shiftBack);
 
 int main() {
-    char k = 5, g = -5;
     
-    
+    char k = 5;
     
     char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
-    char sentenceE[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
     
-    encrypt(sentenceO, sentenceE, k);
-    printf("%s", sentenceE);
+    encrypt(sentenceO, k);
+    printf("%s", sentenceO);
     
 //    char sentenceOriginal[] = {THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG}
 //    char sentenceEnc[] = sentenceOriginal[];
@@ -31,7 +29,7 @@ int main() {
 
 /*Definition of the encrypt function occurs after the int main() code block*/
 
-char encrypt(char *x, char *y, char shift) {
+char encrypt(char *x, char shift) {
     
     char alpha[26], alphaCopy[26];
     int i;
@@ -54,7 +52,7 @@ char encrypt(char *x, char *y, char shift) {
     /*the for loop takes values of x[] i + some shift's value and assigns it to the array y[]'s ith element and then repeats this 
     process for all required values of index to suffice the conditions of the for loop thus encrypting the y[] array*/
     for (index = 0; index < 26 - tempShift; index++) {  
-        y[index] = alpha[index + tempShift];
+        alphaCopy[index] = alpha[index + tempShift];
     }
     
     /*The for loop takes the values shift factor distance from the end of y[] + the indexT and assigns the value found in the indexT 
@@ -63,10 +61,21 @@ char encrypt(char *x, char *y, char shift) {
     for (indexT = 0; indexT < tempShift; indexT++) {
         alphaCopy[26 - tempShift + indexT] = alpha[indexT];
     }
+    int N = sizeof(x), count = 0;
+    
+    for (count; count < N; count++);
+        if (count < 26 - tempShift) {
+            count = count + tempShift;
+        } else {
+            count = count - tempShift + 26;
+        }
+        x[count] = alphaCopy[count];
+    
     return 0;
+    
 }
 
-char decrypt(char *x, char *y, char shiftBack) {
+char decrypt(char *x, char shiftBack) {
 	
 	char alpha[26], alphaCopy[26];
 	int i;
