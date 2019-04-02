@@ -12,9 +12,9 @@ char decrypt(char *x, char shiftBack);
 
 int main() {
     
-    char k = 5;
+    char k = 12;
     
-    char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
+    char sentenceO[] = "CAT";
     
     encrypt(sentenceO, k);
     printf("%s", sentenceO);
@@ -63,14 +63,14 @@ char encrypt(char *x, char shift) {
     }
     int N = sizeof(x), count = 0;
     
-    for (count; count < N; count++);
+    for (count; count < N; count++) {
         if (count < 26 - tempShift) {
             count = count + tempShift;
         } else {
-            count = count - tempShift + 26;
+            count =+ 26 - tempShift;
         }
         x[count] = alphaCopy[count];
-    
+    }
     return 0;
     
 }
