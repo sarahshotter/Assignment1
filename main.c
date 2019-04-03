@@ -6,26 +6,13 @@
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
 to transform a second array from the first using a shift factor   f*/
-char encrypt(char *x, char shift);
+void encrypt(char *x, char *y, char shift);
 
 char decrypt(char *x, char shiftBack);
 
+void translate(char *message, char *key);
+
 int main() {
-    
-    char k = 5;
-    
-    char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
-    
-    encrypt(sentenceO, k);
-    printf("%s", sentenceO);
-        
-    return 0;
-}
-
-/*Definition of the encrypt function occurs after the int main() code block*/
-
-char encrypt(char *x, char shift) {
-    
     char alpha[26], alphaCopy[26];
     int i; 
     
@@ -35,6 +22,23 @@ char encrypt(char *x, char shift) {
         /* there are two arrays with the same elements to allow us to edit one from the 
         other without changing the elements of the first one without the need for temporary variables*/
     }
+    
+    char k = 10;
+    
+    char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
+    
+    encrypt(alpha, alphaCopy, k);
+    printf("%s", alphaCopy);
+    
+    translate(sentenceO, alphaCopy);
+    printf("%s", sentenceO);
+        
+    return 0;
+}
+
+/*Definition of the encrypt function occurs after the int main() code block*/
+
+void encrypt(char *x, char *y, char shift) {
     
     int indexT, index; //indexT represents a temporary index, and index that of the elements in the arrays
     
@@ -47,27 +51,16 @@ char encrypt(char *x, char shift) {
     /*the for loop takes values of x[] i + some shift's value and assigns it to the array y[]'s ith element and then repeats this 
     process for all required values of index to suffice the conditions of the for loop thus encrypting the y[] array*/
     for (index = 0; index < 26 - tempShift; index++) {  
-        alphaCopy[index] = alpha[index + tempShift];
+        y[index] = x[index + tempShift];
     }
     
     /*The for loop takes the values shift factor distance from the end of y[] + the indexT and assigns the value found in the indexT 
     positions of x[]. This allows us to circumnavigate the issue of accessing data from outside the array when having to rotate at the 
     end of the alphabet back to the start.*/
     for (indexT = 0; indexT < tempShift; indexT++) {
-        alphaCopy[26 - tempShift + indexT] = alpha[indexT];
+        y[26 - tempShift + indexT] = x[indexT];
     }
     
-    int count;
-    
-    for (count = 0; count <= sizeof(x); count++) {
-        if (count < 26 - tempShift) {
-            count = count + tempShift;
-            break;
-        } else 
-            count = count + 26 - tempShift;
-        x[count] = alphaCopy[count];
-    }
-    return 0;
 }
 
 char decrypt(char *x, char shiftBack) {
@@ -92,4 +85,11 @@ char decrypt(char *x, char shiftBack) {
 		alpha[tempIndex] = alphaCopy[26 - tempShiftBack + tempIndex];
 	}
 	return 0;
+}
+
+void translate(char *message, char *key) {
+    int i;
+    for (i = 0; i < sizeof(message); i++) {
+        message[i] = key[message[i] - 65];
+    }
 }
