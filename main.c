@@ -28,10 +28,10 @@ int main() {
     char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
     
     encrypt(alpha, alphaCopy, k);
-    printf("%s", alphaCopy);
+    printf("%s\n", alphaCopy);
     
     translate(sentenceO, alphaCopy);
-    printf("%s", sentenceO);
+    printf("%s\n", sentenceO);
         
     return 0;
 }
