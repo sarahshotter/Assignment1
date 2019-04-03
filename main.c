@@ -12,18 +12,13 @@ char decrypt(char *x, char shiftBack);
 
 int main() {
     
-    char k = 12;
+    char k = 5;
     
-    char sentenceO[] = "CAT";
+    char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
     
     encrypt(sentenceO, k);
     printf("%s", sentenceO);
-    
-//    char sentenceOriginal[] = {THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG}
-//    char sentenceEnc[] = sentenceOriginal[];
-//    encrypt(sentenceOriginal, sentenceEnc, k);
-//    printf("%s", sentenceEnc);
-    
+        
     return 0;
 }
 
@@ -32,7 +27,7 @@ int main() {
 char encrypt(char *x, char shift) {
     
     char alpha[26], alphaCopy[26];
-    int i;
+    int i; 
     
     for (i = 0; i < 26; i++) { //array with 26 elements
         alpha[i] = i + 65; //elements range from 65 to 90
@@ -61,18 +56,18 @@ char encrypt(char *x, char shift) {
     for (indexT = 0; indexT < tempShift; indexT++) {
         alphaCopy[26 - tempShift + indexT] = alpha[indexT];
     }
-    int N = sizeof(x), count = 0;
     
-    for (count; count < N; count++) {
+    int count;
+    
+    for (count = 0; count <= sizeof(x); count++) {
         if (count < 26 - tempShift) {
             count = count + tempShift;
-        } else {
-            count =+ 26 - tempShift;
-        }
+            break;
+        } else 
+            count = count + 26 - tempShift;
         x[count] = alphaCopy[count];
     }
     return 0;
-    
 }
 
 char decrypt(char *x, char shiftBack) {
