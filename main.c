@@ -10,7 +10,7 @@ void encrypt(char *x, char *y, char shift);
 
 char decrypt(char *x, char shiftBack);
 
-void translate(char *message, char *key);
+void translate(char *message, int messageLength, char *key);
 
 int main() {
     char alpha[26], alphaCopy[26];
@@ -30,7 +30,7 @@ int main() {
     encrypt(alpha, alphaCopy, k);
     printf("%s\n", alphaCopy);
     
-    translate(sentenceO, alphaCopy);
+    translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
         
     return 0;
@@ -87,9 +87,11 @@ char decrypt(char *x, char shiftBack) {
 	return 0;
 }
 
-void translate(char *message, char *key) {
+void translate(char *message, int messageLength, char *key) {
     int i;
-    for (i = 0; i < sizeof(message); i++) {
-        message[i] = key[message[i] - 65];
+    for (i = 0; i < messageLength; i++) {
+        if(message[i] != ' ') {
+           message[i] = key[message[i] - 65];
+        }
     }
 }
