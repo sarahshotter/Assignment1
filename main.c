@@ -64,7 +64,7 @@ void encrypt(char *x, char *y, char shift) {
 }
 
 char decrypt(char *x, char shiftBack) {
-	
+	//alpha is alphabet, alphaCopy is altered alphabet
 	char alpha[26], alphaCopy[26];
 	int i;
 	
