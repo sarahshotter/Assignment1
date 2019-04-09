@@ -68,13 +68,6 @@ char decrypt(char *x, char shiftBack) {
 	char alpha[26], alphaCopy[26];
 	int i;
 	
-	for (i = 0; i < 26; i++) { //array with 26 elements
-        alpha[i] = i + 65; //elements range from 65 to 90
-        alphaCopy[i] = i + 65; //second array with elements ranging from 65 to 90
-        /* there are two arrays with the same elements to allow us to edit one from the 
-        other without changing the elements of the first one without the need for temporary variables*/
-    }
-	
 	int ind, tempIndex; //the indices for the arrays and the temporary indices
 	
 	char tempShiftBack = abs((26 + shiftBack)%26);
