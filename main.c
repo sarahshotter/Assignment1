@@ -38,6 +38,7 @@ int main() {
         
     decryption(sentenceO, sizeof(sentenceO), alpha);
     printf("%s\n", sentenceO);
+    printf("%s\n", alphaCopy);
     
     return 0;
 }
@@ -73,7 +74,7 @@ void decryption(char *jumble, int jumbleLength, char *factor) {
     int n;
     for (n = 0; n < jumbleLength; n++) {
         if(jumble[n] != ' ') {
-            jumble[n] = jumble[factor[n] + 65];
+            jumble[n] = factor[65 - jumble[n]];
         }
     }
 }
