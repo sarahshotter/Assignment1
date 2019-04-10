@@ -12,6 +12,8 @@ char decrypt(char *x, char shiftBack);
 
 void translate(char *message, int messageLength, char *key);
 
+void decryption(char *jumble, int jumbleLength, char *factor);
+
 int main() {
     char alpha[26], alphaCopy[26];
     int i; 
@@ -33,6 +35,10 @@ int main() {
     translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
         
+        
+    decryption(sentenceO, sizeof(sentenceO), alphaCopy);
+    printf("%s\n", sentenceO);
+    
     return 0;
 }
 
@@ -61,6 +67,15 @@ void encrypt(char *x, char *y, char shift) {
         y[26 - tempShift + indexT] = x[indexT];
     }
     
+}
+
+void decryption(char *jumble, int jumbleLength, char *factor) {
+    char n;
+    for (n = 0; n < jumbleLength; n++) {
+        if(jumble[n] != ' ') {
+            jumble[n] = jumble[n]/factor + 65;
+        }
+    }
 }
 
 char decrypt(char *x, char shiftBack) {
