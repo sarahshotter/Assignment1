@@ -36,7 +36,7 @@ int main() {
     printf("%s\n", sentenceO);
         
         
-    decryption(sentenceO, sizeof(sentenceO), alphaCopy);
+    decryption(sentenceO, sizeof(sentenceO), alpha);
     printf("%s\n", sentenceO);
     
     return 0;
@@ -70,30 +70,30 @@ void encrypt(char *x, char *y, char shift) {
 }
 
 void decryption(char *jumble, int jumbleLength, char *factor) {
-    char n;
+    int n;
     for (n = 0; n < jumbleLength; n++) {
         if(jumble[n] != ' ') {
-            jumble[n] = jumble[n]/factor + 65;
+            jumble[n] = jumble[factor[n] + 65];
         }
     }
 }
 
-char decrypt(char *x, char shiftBack) {
-	//alpha is alphabet, alphaCopy is altered alphabet
-	char alpha[26], alphaCopy[26];
-	int i;
-	
-	int ind, tempIndex; //the indices for the arrays and the temporary indices
-	
-	char tempShiftBack = abs((26 + shiftBack)%26);
-	for (ind = 0; ind < 26 - tempShiftBack; ind++) {
-		alpha[ind + tempShiftBack] = alphaCopy[ind];
-	}
-	for (tempIndex = 0; tempIndex < tempShiftBack; tempIndex++) {
-		alpha[tempIndex] = alphaCopy[26 - tempShiftBack + tempIndex];
-	}
-	return 0;
-}
+//char decrypt(char *x, char shiftBack) {
+//	//alpha is alphabet, alphaCopy is altered alphabet
+//	char alpha[26], alphaCopy[26];
+//	int i;
+//	
+//	int ind, tempIndex; //the indices for the arrays and the temporary indices
+//	
+//	char tempShiftBack = abs((26 + shiftBack)%26);
+//	for (ind = 0; ind < 26 - tempShiftBack; ind++) {
+//		alpha[ind + tempShiftBack] = alphaCopy[ind];
+//	}
+//	for (tempIndex = 0; tempIndex < tempShiftBack; tempIndex++) {
+//		alpha[tempIndex] = alphaCopy[26 - tempShiftBack + tempIndex];
+//	}
+//	return 0;
+//}
 
 void translate(char *message, int messageLength, char *key) {
     int i;
