@@ -5,14 +5,12 @@
 
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
-to transform a second array from the first using a shift factor   f*/
+transform a second array from the first using a shift factor*/
 void encrypt(char *x, char *y, char shift);
-
-char decrypt(char *x, char shiftBack);
 
 void translate(char *message, int messageLength, char *key);
 
-void decryption(char *jumble, int jumbleLength, char *factor);
+void decrypt(char *mixed, char *unmixed, char shiftFactor)
 
 int main() {
     char alpha[26], alphaCopy[26];
@@ -34,10 +32,11 @@ int main() {
     
     translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
+    
+    sentenceO = sentenceM;
         
-        
-    decryption(sentenceO, sizeof(sentenceO), alpha);
-    printf("%s\n", sentenceO);
+    decrypt(alphaCopy, alpha, k);
+    printf("%s\n", alpha);
     printf("%s\n", alphaCopy);
     
     return 0;
@@ -70,31 +69,18 @@ void encrypt(char *x, char *y, char shift) {
     
 }
 
-void decryption(char *jumble, int jumbleLength, char *factor) {
-    int n;
-    for (n = 0; n < jumbleLength; n++) {
-        if(jumble[n] != ' ') {
-            jumble[n] = factor[65 - jumble[n]];
-        }
-    }
+void decrypt(char *mixed, char *unmixed, char shiftFactor) {
+	int n;
+	If(shiftFactor > 0) {
+		shiftFactor == -shiftFactor
+		}
+	For (n = 0; n < 26 - shiftFactor; n++) {
+		Unmixed[n] = mixed[n+shiftFactor]; 
+		}
+	For (n = 0; n < shiftFactor; n++) {
+		Unmixed[26 - shiftfactor + n] = mixed[n]
+		}
 }
-
-//char decrypt(char *x, char shiftBack) {
-//	//alpha is alphabet, alphaCopy is altered alphabet
-//	char alpha[26], alphaCopy[26];
-//	int i;
-//	
-//	int ind, tempIndex; //the indices for the arrays and the temporary indices
-//	
-//	char tempShiftBack = abs((26 + shiftBack)%26);
-//	for (ind = 0; ind < 26 - tempShiftBack; ind++) {
-//		alpha[ind + tempShiftBack] = alphaCopy[ind];
-//	}
-//	for (tempIndex = 0; tempIndex < tempShiftBack; tempIndex++) {
-//		alpha[tempIndex] = alphaCopy[26 - tempShiftBack + tempIndex];
-//	}
-//	return 0;
-//}
 
 void translate(char *message, int messageLength, char *key) {
     int i;
