@@ -78,21 +78,12 @@ void decrypt(char *mixed, char *unmixed, char shiftFactor) {
 		}
 		
 	for (n = 0; n < 26 - shiftFactor; n++) {
-		unmixed[n] = mixed[n+shiftFactor]; 
+		unmixed[n + shiftFactor] = mixed[n]; 
 		}
 		
-	for (n = 0; n < shiftFactor; n++) {
-		unmixed[26 - shiftfactor + n] = mixed[n];
+	for (i = 0; i < shiftFactor; i++) {
+		unmixed[i] = mixed[26 - shiftFactor + i];
 		}
-
-void decryption(char *jumble, int jumbleLength, char *factor) {
-    int n;
-    for (n = 0; n < jumbleLength; n++) {
-        if(jumble[n] != ' ') {
-            jumble[n] = factor[65 - jumble[n]];
-        }
-    }
-}
 
 void translate(char *message, int messageLength, char *key) {
     int i;
