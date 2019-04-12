@@ -71,14 +71,16 @@ void encrypt(char *x, char *y, char shift) {
 
 void decrypt(char *mixed, char *unmixed, char shiftFactor) {
 	int n;
-	If(shiftFactor > 0) {
-		shiftFactor == -shiftFactor
+	if(shiftFactor > 0) {
+		shiftFactor == -shiftFactor;
 		}
-	For (n = 0; n < 26 - shiftFactor; n++) {
-		Unmixed[n] = mixed[n+shiftFactor]; 
+		
+	for (n = 0; n < 26 - shiftFactor; n++) {
+		unmixed[n] = mixed[n+shiftFactor]; 
 		}
-	For (n = 0; n < shiftFactor; n++) {
-		Unmixed[26 - shiftfactor + n] = mixed[n]
+		
+	for (n = 0; n < shiftFactor; n++) {
+		unmixed[26 - shiftfactor + n] = mixed[n];
 		}
 }
 
