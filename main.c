@@ -10,11 +10,12 @@ void encrypt(char *x, char *y, char shift);
 
 void translate(char *message, int messageLength, char *key);
 
-void decrypt(char *mixed, char *unmixed, char shiftFactor)
+void decrypt(char *mixed, char *unmixed, char shiftFactor);
 
 int main() {
     char alpha[26], alphaCopy[26];
-    int i; 
+    int i;
+    int m;
     
     for (i = 0; i < 26; i++) { //array with 26 elements
         alpha[i] = i + 65; //elements range from 65 to 90
@@ -26,6 +27,7 @@ int main() {
     char k = 10;
     
     char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
+    char sentenceM[sizeof(sentenceO)];
     
     encrypt(alpha, alphaCopy, k);
     printf("%s\n", alphaCopy);
@@ -33,8 +35,9 @@ int main() {
     translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
     
-    sentenceO = sentenceM;
-        
+    for (m = 0; m < sizeof(sentenceO); m++) {
+        sentenceO[m] = sentenceM[m];
+    }
 
     decrypt(alphaCopy, alpha, k);
     printf("%s\n", alpha);
@@ -72,7 +75,7 @@ void encrypt(char *x, char *y, char shift) {
 
 
 void decrypt(char *mixed, char *unmixed, char shiftFactor) {
-	int n;
+	int i, n;
 	if(shiftFactor > 0) {
 		shiftFactor == -shiftFactor;
 		}
@@ -84,6 +87,7 @@ void decrypt(char *mixed, char *unmixed, char shiftFactor) {
 	for (i = 0; i < shiftFactor; i++) {
 		unmixed[i] = mixed[26 - shiftFactor + i];
 		}
+}
 
 void translate(char *message, int messageLength, char *key) {
     int i;
