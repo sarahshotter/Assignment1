@@ -35,6 +35,7 @@ int main() {
     
     sentenceO = sentenceM;
         
+
     decrypt(alphaCopy, alpha, k);
     printf("%s\n", alpha);
     printf("%s\n", alphaCopy);
@@ -69,6 +70,7 @@ void encrypt(char *x, char *y, char shift) {
     
 }
 
+
 void decrypt(char *mixed, char *unmixed, char shiftFactor) {
 	int n;
 	if(shiftFactor > 0) {
@@ -82,6 +84,14 @@ void decrypt(char *mixed, char *unmixed, char shiftFactor) {
 	for (n = 0; n < shiftFactor; n++) {
 		unmixed[26 - shiftfactor + n] = mixed[n];
 		}
+
+void decryption(char *jumble, int jumbleLength, char *factor) {
+    int n;
+    for (n = 0; n < jumbleLength; n++) {
+        if(jumble[n] != ' ') {
+            jumble[n] = factor[65 - jumble[n]];
+        }
+    }
 }
 
 void translate(char *message, int messageLength, char *key) {
