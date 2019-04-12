@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
@@ -10,10 +11,13 @@ void encrypt(char *x, char *y, char shift);
 
 void translate(char *message, int messageLength, char *key);
 
-void decrypt(char *mixed, char *unmixed, char shiftFactor);
+void decrypt(char *mixed, char *unmixed, int shiftFactor);
+
+void decode(char *scramble, int scrambleLength, char *code);
 
 int main() {
-    char alpha[26], alphaCopy[26];
+    char alpha[26]; 
+    char alphaCopy[26];
     int i;
     int m;
     
@@ -24,10 +28,13 @@ int main() {
         other without changing the elements of the first one without the need for temporary variables*/
     }
     
+    printf("%s\n", alpha);
+    printf("%s\n", alphaCopy);
+    
     char k = 10;
     
     char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
-    char sentenceM[sizeof(sentenceO)];
+    char sentenceM[] = "DRO AESMU LBYGX PYH TEWZC YFOB DRO VKJI NYQ";
     
     encrypt(alpha, alphaCopy, k);
     printf("%s\n", alphaCopy);
@@ -35,13 +42,15 @@ int main() {
     translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
     
-    for (m = 0; m < sizeof(sentenceO); m++) {
-        sentenceO[m] = sentenceM[m];
-    }
-
+    printf("%s\n", alpha);
+    printf("%s\n", alphaCopy);
+    
     decrypt(alphaCopy, alpha, k);
     printf("%s\n", alpha);
     printf("%s\n", alphaCopy);
+    
+    // decode(sentenceM, sizeof(sentenceM), alpha);
+    // printf("%s\n", sentenceM);
     
     return 0;
 }
@@ -74,18 +83,15 @@ void encrypt(char *x, char *y, char shift) {
 }
 
 
-void decrypt(char *mixed, char *unmixed, char shiftFactor) {
+void decrypt(char *mixed, char *unmixed, int shiftFactor) {
 	int i, n;
-	if(shiftFactor > 0) {
-		shiftFactor == -shiftFactor;
-		}
 		
 	for (n = 0; n < 26 - shiftFactor; n++) {
-		unmixed[n + shiftFactor] = mixed[n]; 
+		mixed[n + shiftFactor] = unmixed[n]; 
 		}
 		
 	for (i = 0; i < shiftFactor; i++) {
-		unmixed[i] = mixed[26 - shiftFactor + i];
+		mixed[i] = unmixed[26 - shiftFactor + i];
 		}
 }
 
@@ -97,3 +103,12 @@ void translate(char *message, int messageLength, char *key) {
         }
     }
 }
+
+// void decode(char *scramble, int scrambleLength, char *code) {
+//     int l; 
+//     for (l = 0; l < scrambleLength; l++) {
+//         if (scramble[l] != ' ') {
+//             scramble[l - 65] = code[l];
+//         }
+//     }
+// }
