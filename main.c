@@ -7,13 +7,14 @@
 
 /*Prototype sets up the function encrypt, which utilises two arrays and an integer shift, 
 transform a second array from the first using a shift factor*/
+
 void encrypt(char *x, char *y, char shift);
 
 void translate(char *message, int messageLength, char *key);
 
 void decrypt(char *mixed, char *unmixed, int shiftFactor);
 
-void decode(char *scramble, int scrambleLength, char *code);
+// void decode(char *scramble, int scrambleLength, char *code);
 
 int main() {
     char alpha[26]; 
@@ -28,9 +29,6 @@ int main() {
         other without changing the elements of the first one without the need for temporary variables*/
     }
     
-    printf("%s\n", alpha);
-    printf("%s\n", alphaCopy);
-    
     char k = 10;
     
     char sentenceO[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
@@ -39,18 +37,22 @@ int main() {
     encrypt(alpha, alphaCopy, k);
     printf("%s\n", alphaCopy);
     
+    /*alphaCopy is now the encrypted alphabet. To ensure that the encryption key isn't lost, a second
+    copy of alphaCopy is made, called the encryptKey*/
+    
+    char encryptKey[26];
+    for (m = 0; m < 26; m++) {
+        encryptKey[m] = alphaCopy[m];
+    }
+    printf("%s\n", encryptKey);
+    
     translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
     
-    printf("%s\n", alpha);
-    printf("%s\n", alphaCopy);
+    // decrypt(alphaCopy, alpha, k);
+    // printf("%s\n", alpha);
+    // printf("%s\n", alphaCopy);
     
-    decrypt(alphaCopy, alpha, k);
-    printf("%s\n", alpha);
-    printf("%s\n", alphaCopy);
-    
-    decode(sentenceM, sizeof(sentenceM), alpha);
-    printf("%s\n", sentenceM);
     
     return 0;
 }
@@ -83,26 +85,10 @@ void encrypt(char *x, char *y, char shift) {
 }
 
 
-void decrypt(char *mixed, char *unmixed, int shiftFactor) {
-	int i, n, j;
-	
-	int sFact = -1*abs((26 + shiftFactor)%26);
+void decrypt(char *mixed, char *unmixed, int sFact) {
+	char i, n, j;
 		
-// 	for (n = 0; n < 26 - shiftFactor; n++) {
-// 		unmixed[n + shiftFactor] = mixed[n]; 
-// 		}
-		
-// 	for (i = 0; i < shiftFactor; i++) {
-// 		unmixed[i] = mixed[26 - shiftFactor + i];
-// 		}
-	for (i = 0; i < sFact; i++) {
-	    mixed[i] = unmixed[26 - sFact + i];
-	}
-	
-	for (j = 0; j < 26 - sFact; j++) {
-	    mixed[j] = unmixed[j];
-	}
-}
+
 
 void translate(char *message, int messageLength, char *key) {
     int i;
@@ -113,11 +99,11 @@ void translate(char *message, int messageLength, char *key) {
     }
 }
 
-void decode(char *scramble, int scrambleLength, char *code) {
-    int l; 
-    for (l = 0; l < scrambleLength; l++) {
-        if (scramble[l] != ' ') {
-            scramble[l - 65] = code[l];
-        }
-    }
-}
+// void decode(char *scramble, int scrambleLength, char *code) {
+//     int l; 
+//     for (l = 0; l < scrambleLength; l++) {
+//         if (scramble[l] != ' ') {
+//             scramble[l - 65] = code[l];
+//         }
+//     }
+// }
