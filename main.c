@@ -49,10 +49,8 @@ int main() {
     translate(sentenceO, sizeof(sentenceO), alphaCopy);
     printf("%s\n", sentenceO);
     
-    // decrypt(alphaCopy, alpha, k);
-    // printf("%s\n", alpha);
-    // printf("%s\n", alphaCopy);
-    
+    decrypt(encryptKey, alphaCopy, k);
+    printf("%s\n", alphaCopy);
     
     return 0;
 }
@@ -86,9 +84,16 @@ void encrypt(char *x, char *y, char shift) {
 
 
 void decrypt(char *mixed, char *unmixed, int sFact) {
-	char i, n, j;
+	char i, n;
 		
-
+    for (i = 0; i < 26 - sFact; i++) {
+        unmixed[i + sFact] = mixed[i];
+    }
+    
+    for (n = 0; n < sFact; n++) {
+        unmixed[n] = mixed[26 - sFact + n];
+    }
+}
 
 void translate(char *message, int messageLength, char *key) {
     int i;
