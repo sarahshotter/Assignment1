@@ -22,7 +22,7 @@ void shift(char *info) { //function shift takes an array and adds a shift factor
     scanf("%d", &shiftFactor);
     if (shiftFactor < 0) { //if the shift factor is negative, the equivalent rotation can be achieved by taking the remainder of 26 + that shift factor
         shiftFactor = (shiftFactor + 26)%26;
-        printf("To allow for the rotational nature of the alphabet, shift has been altered to:  %d\n", shiftFactor);
+        printf("To allow for the cyclic nature of the cipher, shift has been altered to:  %d\n", shiftFactor);
     }
     
     for (n = 0; info[n] != '\0'; n++){ //as long as the element is not a space or an empty element at the end of the array the function will add the shift factor onto the element's value even if it exceeds the value of Z (i.e. 90 in ASCII)
