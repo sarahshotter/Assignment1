@@ -8,22 +8,39 @@ void shift(char *info); //this is the prototype of the encryption function
 void reset(char *codedInfo);
 
 int main() {
-    char message[1000]; //this sets the maximum number of characters in the message to be 1000 so as not to overload the computer
-    char codedMessage[1000];
+    char message[1000];
+    FILE *fp;
+    FILE *input;
     
-    FILE *input; //declares a variable of type "file"
-    input = fopen("/Users/Sarebear/Desktop/Cipher/Message.txt", "r"); //reads the file from this location
-    fgets(message, 1000, input); //takes the file up to 1000 characters and stores it in the array message which was declared earlier
+    int choice;
+    printf("Choose which function to perform:   \n");
+    printf("1: Rotation Encryption\n");
+    printf("2: Rotation Decryption\n");
+    printf("3: Substitution Encryption\n");
+    printf("4: Substitution Decryption\n");
+    scanf("%d", &choice);
     
-    shift(message); //calls shift function to encrypt message
-    printf("The altered message is: %s\n", message); //prints out the encrypted message
     
-    FILE *fcoded;
-    fcoded = fopen("/Users/Sarebear/Desktop/Cipher/shiftFour.txt", "r");
-    fgets(codedMessage, 1000, fcoded);
-    
-    reset(codedMessage);
-    printf("The reset message is:   %s\n", codedMessage);
+    switch (choice) {
+        case 1: fp = fopen("/Users/Sarebear/Desktop/Cipher/Message.txt", "r"); //reads the file from this location
+            fgets(message, 1000, fp); //takes the file up to 1000 characters and stores it in the array message which was declared earlier
+            printf("The original message is:    %s\n", message);
+            shift(message);
+            printf("The altered message is: %s\n", message); //prints out the encrypted message
+            break;
+        case 2: input = fopen("/Users/Sarebear/Desktop/Cipher/shiftFour.txt", "r");
+            fgets(message, 1000, input);
+            printf("The original message is:    %s\n", message);
+            reset(message);
+            printf("The reset message is:   %s\n", message);
+            break;
+        case 3://calls on substitution encryption function (unwritten)
+            break;
+        case 4://calls on substitution decryption function (unwritten)
+            break;
+        default: printf("Try again, but this time choose an option that is actually there\n");
+            break;
+    }
     
 }
 
@@ -54,12 +71,12 @@ void shift(char *info) { //function shift takes an array and adds a shift factor
 void reset(char *codedInfo) {
     int n, resetFactor;
     
-    printf("Enter a value to reset code:    ");
+    printf("Enter a value to reset code:    \n");
     scanf("%d", &resetFactor);
     
     if (resetFactor < 0) {
         resetFactor = (resetFactor + 26)%26;
-        printf("Cipher is cyclic so factor has been reset to:   %d", resetFactor);
+        printf("Cipher is cyclic so factor has been reset to:   %d\n", resetFactor);
     }
     
     for (n = 0; codedInfo[n] != '\0'; n++) {
