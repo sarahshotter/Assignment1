@@ -108,7 +108,7 @@ int main() {
     //        }
     //    } while (choice > 6);
     
-    char englishLetters[26] = "ETAOINSHRDLCUMFPGWYBVKXJQZ"; //the most common letters in the English language in descending ordershrdlcumwfgypbvkjxqz
+    char englishLetters[26] = "ETAOINSRHLDCUMFPGWYBVKXJQZ"; //the most common letters in the English language in descending order
     char messageLetters[26]; //the most common letters in the message in descending order
     
     int i, j, max;
