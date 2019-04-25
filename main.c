@@ -11,12 +11,14 @@ void substitutionEncryption(char *content);
 
 void substitutionDecryption(char *codedContent);
 
+void substitutionDecryptNoKey(char *codedText);
+
 int main() {
     char message[1000]; //a maximum message length of 1000 characters was set to ensure that the memory of the processor was not compromised by running the programme
     char key[3]; //string read from file cipherkey
     int keyValue; //integer obtained from string key[]
     char text[1000];//text is the output from the function. it is not called output as their is already a file called output
-    //the corresponding declarations for files for each of the functions lies below with the format being "f<function_number>"
+    
     
     FILE *input;//file where input is read from before the user decides what to do with the information
     FILE *cipherkey;//file where key is read from
@@ -28,129 +30,87 @@ int main() {
     
     printf("The input message is:   %s\n", message);
     
-    //    int choice;
-    ////    do {
-    //        printf("Choose which function to perform on the message:   \n"); //prints the options to the screen
-    //        printf("1:  Rotation Encryption\n");
-    //        printf("2:  Rotation Decryption\n");
-    //        printf("3:  Substitution Encryption\n");
-    //        printf("4:  Substitution Decryption with Key\n");
-    //        printf("5:  Substitution Decryption without Key\n");
-    //        printf("6:  Rotation Decryption without Key\n");
-    //        scanf("%d", &choice); //saves the choice of the user to the variable then continues to switch case to carry out the function
-    //
-    //        switch (choice) {
-    //
-    //                /*Case 1: carries out the shift function. It is a rotational cipher encryption. It reads from a file and allows the user to input the key, then printing the rotated message to the console*/
-    //
-    //            case 1: printf("The original message is:    %s\n", message);
-    //                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");
-    //                fgets(key, 3, cipherkey);
-    //                keyValue = atoi(key);
-    //                printf("The key is: %d\n", keyValue);
-    //                rotationEncryption(message, keyValue);
-    //                printf("The altered message is:     %s\n", message); //prints out the encrypted message
-    //                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-    //                fputs(message, output);
-    //                break;
-    //
-    //                /*Case 2: carries out the rotation Decryption function. It is a rotational cipher decryption. It reads from a file and allows the user to input a key to decrypt by. At this point it can only decrypt by brute force attack. It prints the unencrypted message to the console*/
-    //
-    //            case 2: printf("The original message is:    %s\n", message);
-    //                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");
-    //                fgets(key, 3, cipherkey);
-    //                keyValue = atoi(key);
-    //                printf("The key from file is:   %d\n", keyValue);
-    //                rotationDecryption(message, text, keyValue);
-    //                printf("The reset message is:       %s\n", text);
-    //                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-    //                fputs(text, output);
-    //                break;
-    //
-    //                /*Case 3: carries out the subs function. It is a substitutional cipher encryption. It reads from a file based on the computers main frame. Prints the alphabet in order and then prints a substituted alphabet which is used as a lookup table. Prints the substituted message*/
-    //
-    //            case 3: printf("Original message is:    %s\n", message);
-    //                substitutionEncryption(message);
-    //                printf("Substituted message is: %s\n", message);
-    //                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-    //                fputs(message, output);
-    //                break;
-    //
-    //                /*Case 4: carries out subsDec function. It is a substitutional cipher decryption. */
-    //
-    //            case 4: printf("Original encrypted message is:  %s\n", message);
-    //                substitutionDecryption(message);
-    //                printf("Decrypted message is:           %s\n", message);
-    //                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-    //                fputs(message, output);
-    //                break;
-    //
-    //                /*Case 5: carries out <insert name> function. It's aim is to decode a message without being given the substitution key*/
-    //            case 5: printf("Original encrypted message: %s\n", message);
-    //                //function of decryption
-    //                printf("Decrypted message is:       %s\n", message);
-    //                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-    //                fputs(message, output);
-    //                break;
-    //
-    //            case 6: //decryption by brute force
-    //                printf("The original message is:    %s\n", message);
-    //                for (keyValue = 0; keyValue < 27; keyValue++) {
-    //                    rotationDecryption(message, text, keyValue);
-    //                    printf("When the key is %d, message is: %s\n", keyValue, text);
-    //                    }
-    //                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-    //                fputs(text, output);
-    //                break;
-    //
-    //            default: printf("Try again, but this time choose an option that is actually there\n"); //the user has input something other than 1, 2, 3, or 4 as they have either misunderstood the instructions or something has gone wrong. This allows them to try again.
-    //                break;
-    //        }
-    //    } while (choice > 6);
-    
-    char englishLetters[26] = "ETAOINSRHLDCUMFPGWYBVKXJQZ"; //the most common letters in the English language in descending order
-    char messageLetters[26]; //the most common letters in the message in descending order
-    
-    int i, j, max;
-    char maxLetter;
-    float messageLength = strlen(message);
-    
-    char frequency[26]; //Frequency histogram for the letters in the message
-    for (i = 0; i < messageLength; i++) {
-        frequency[message[i] - 'A']++;
-    }
-    
-    for (i = 0; i < 26; i++) {
-        printf("Frequency of letter %c is %d\n", i + 'A', frequency[i]); //(i + 'A') is the same as i + 65 and is setting the char value to the ASCII value for each element of the for loop
-    }
-    
-    for (i = 0; i < 26; i++) {
-        max = 0;
-        maxLetter = ' ';
-        for (j = 0; j < 26; j++) {
-            if (frequency[j] > max) {
-                max = frequency[j]; //this sets the max value to the value that is at the first j value in the frequency histogram. then sorts through the rest of the data
-                maxLetter = j + 65; //returns it to its ascii value
-            }
-        }
-        messageLetters[i] = maxLetter;
-        frequency[maxLetter - 65] = 0; //this replaces the value of the max valued element with zero. Otherwise the loop would continuously return only the one element as the max value
-    }
-    printf("Letters in decreasing frequency are:     %s\n", messageLetters); //Note: the letters that don't appear in the coded message won't appear in the array letters[]
-    printf("Most frequently used letters in English: %s\n", englishLetters);
-    
-    int k;
-    for (i = 0; i < messageLength; i++) {
-        if (message[i] != ' ') {
-            for (k = 0; k < 26; k++) {
-                if (message[i] == messageLetters[k]) {
-                    message[i] = englishLetters[k];
-                    break;
+    int choice;
+    do {
+        printf("Choose which function to perform on the message:   \n"); //prints the options to the screen
+        printf("1:  Rotation Encryption\n");
+        printf("2:  Rotation Decryption\n");
+        printf("3:  Substitution Encryption\n");
+        printf("4:  Substitution Decryption with Key\n");
+        printf("5:  Substitution Decryption without Key\n");
+        printf("6:  Rotation Decryption without Key\n");
+        scanf("%d", &choice); //saves the choice of the user to the variable then continues to switch case to carry out the function
+        
+        switch (choice) {
+                
+                /*Case 1: carries out the shift function. It is a rotational cipher encryption. It reads from a file and allows the user to input the key, then printing the rotated message to the console*/
+                
+            case 1: printf("The original message is:    %s\n", message);
+                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");
+                fgets(key, 3, cipherkey);
+                keyValue = atoi(key);
+                printf("The key is: %d\n", keyValue);
+                rotationEncryption(message, keyValue);
+                printf("The altered message is:     %s\n", message); //prints out the encrypted message
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                fputs(message, output);
+                break;
+                
+                /*Case 2: carries out the rotation Decryption function. It is a rotational cipher decryption. It reads from a file and allows the user to input a key to decrypt by. At this point it can only decrypt by brute force attack. It prints the unencrypted message to the console*/
+                
+            case 2: printf("The original message is:    %s\n", message);
+                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");
+                fgets(key, 3, cipherkey);
+                keyValue = atoi(key);
+                printf("The key from file is:   %d\n", keyValue);
+                rotationDecryption(message, text, keyValue);
+                printf("The reset message is:       %s\n", text);
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                fputs(text, output);
+                break;
+                
+                /*Case 3: carries out the subs function. It is a substitutional cipher encryption. It reads from a file based on the computers main frame. Prints the alphabet in order and then prints a substituted alphabet which is used as a lookup table. Prints the substituted message*/
+                
+            case 3: printf("Original message is:    %s\n", message);
+                substitutionEncryption(message);
+                printf("Substituted message is: %s\n", message);
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                fputs(message, output);
+                break;
+                
+                /*Case 4: carries out subsDec function. It is a substitutional cipher decryption. */
+                
+            case 4: printf("Original encrypted message is:  %s\n", message);
+                substitutionDecryption(message);
+                printf("Decrypted message is:           %s\n", message);
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                fputs(message, output);
+                break;
+                
+                /*Case 5: carries out <insert name> function. It's aim is to decode a message without being given the substitution key*/
+            case 5: printf("Original encrypted message: %s\n", message);
+                substitutionDecryptNoKey(message);
+                printf("Decrypted message is:       %s\n", message);
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                fputs(message, output);
+                break;
+                
+            case 6: //decryption by brute force
+                printf("The original message is:    %s\n", message);
+                for (keyValue = 0; keyValue < 27; keyValue++) {
+                    rotationDecryption(message, text, keyValue);
+                    printf("When the key is %d, message is: %s\n", keyValue, text);
                 }
-            }
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                fputs(text, output);
+                break;
+                
+            default: printf("Try again, but this time choose an option that is actually there\n"); //the user has input something other than 1, 2, 3, or 4 as they have either misunderstood the instructions or something has gone wrong. This allows them to try again.
+                break;
         }
-    }
-    printf("\nThe new message reads:  %s\n", message);
+    } while (choice > 6);
+    
+    
 }
 
 //    download a dictionary - I have .txt file of a dictionary with 1000 words in it
@@ -160,26 +120,23 @@ int main() {
 
 //    idea to split into words:
 //    char words[1000];
-//    const char sp[] = " ";
 //    char *token;
 //
-//    token = strtok(message, sp); //this will give us the first token
-//    int q = 0;
-//    do {
-//        words[q] = *token;
-//        q = q + 1;
-//        token = strtok(NULL, sp);
-//    } while (token != '\0');
+//    strcpy(words, message);
 //
-//    for(q = 0; q < 1000; q++) {
-//        printf("Array of words: %c\n", words[q]);
-//    }
-
-//    int n;
-//    for (n = 0; n != '\0'; n++) {
+//    printf("Words:  %s\n", words);
 //
-//        printf("%s\n", strtok(message, sp));
+//    float wordsLength = strlen(words); //need the initial size of the string
+//
+//    char sp[] = " "; //this is where the tokens will be separated - i.e. whenever there is a space a new string will be started
+//    token = strtok(words, sp);
+//
+//    while (token != NULL) {
+//        printf("Word:   %s\n", token);
+//        token = strtok(NULL, sp); //this gets rid of the value that was just listed, replacing it. this is why we had to make a copy of the message
 //    }
+//
+//    printf("\nThe string of words is: %s\n", words);
 
 
 
@@ -296,6 +253,74 @@ void substitutionDecryption(char *codedContent) {
     
     
     
+}
+
+void substitutionDecryptNoKey(char *passedMessage) {
+    char englishLetters[26] = "ETAOINSRHLDCUMFPGWYBVKXJQZ"; //the most common letters in the English language in descending order
+    char messageLetters[26]; //the most common letters in the message in descending order
+    
+    int i, j, max;
+    char maxLetter;
+    float messageLength = strlen(passedMessage);
+    
+    char frequency[26]; //Frequency histogram for the letters in the message
+    
+    for (i = 0; i < messageLength; i++) {
+        frequency[passedMessage[i] - 'A']++;
+    }
+    
+    for (i = 0; i < 26; i++) {
+        printf("Frequency of letter %c is %d\n", i + 'A', frequency[i]); //(i + 'A') is the same as i + 65 and is setting the char value to the ASCII value for each element of the for loop
+    }
+    
+    for (i = 0; i < 26; i++) {
+        max = 0;
+        maxLetter = ' ';
+        for (j = 0; j < 26; j++) {
+            if (frequency[j] > max) {
+                max = frequency[j]; //this sets the max value to the value that is at the first j value in the frequency histogram. then sorts through the rest of the data
+                maxLetter = j + 65; //returns it to its ascii value
+            }
+        }
+        messageLetters[i] = maxLetter;
+        frequency[maxLetter - 65] = 0; //this replaces the value of the max valued element with zero. Otherwise the loop would continuously return only the one element as the max value
+    }
+    printf("Letters in decreasing frequency are:     %s\n", messageLetters); //Note: the letters that don't appear in the coded message won't appear in the array letters[]
+    printf("Most frequently used letters in English: %s\n", englishLetters);
+    
+    int k;
+    for (i = 0; i < messageLength; i++) {
+        if (passedMessage[i] != ' ') {
+            for (k = 0; k < 26; k++) {
+                if (passedMessage[i] == messageLetters[k]) {
+                    passedMessage[i] = englishLetters[k];
+                    break;
+                }
+            }
+        }
+    }
+    printf("\nThe new message reads:  %s\n", passedMessage);
+    
+    int choice;
+    char letter1, letter2;
+    
+    printf("Do you want to swap any letters?\n");
+    do {
+        printf("1. Yes");
+        printf("2. No");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1: printf("Enter the two letters you would like to switch in this fashion: A B");
+                scanf("%c %c", &letter1, &letter2);
+                break;
+                
+            case 2: printf("Are you sure?");
+                printf("1. No");
+                printf("2. Yes");
+                scanf("%d", &choice);
+        }
+    } while (choice < 2);
 }
 
 /* TODO
