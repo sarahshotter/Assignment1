@@ -32,12 +32,12 @@ int main() {
     int choice;
     do {
         printf("Choose which function to perform on the message:   \n"); //prints the options to the screen
-        printf("1:  Rotation Encryption\n");
-        printf("2:  Rotation Decryption\n");
-        printf("3:  Substitution Encryption\n");
-        printf("4:  Substitution Decryption with Key\n");
-        printf("5:  Substitution Decryption without Key\n");
-        printf("6:  Rotation Decryption without Key\n");
+        printf("1:  Rotation Encryption\n"); //will engage rotationEncryption function
+        printf("2:  Rotation Decryption\n");    //will engage rotationDecryption function
+        printf("3:  Substitution Encryption\n");    //will engage substitutionEncryption function
+        printf("4:  Substitution Decryption with Key\n");   //will engage substitutionDecryption
+        printf("5:  Substitution Decryption without Key\n");    //will engage substitutionDecryptNoKey
+        printf("6:  Rotation Decryption without Key\n");    //will engage rotationDecryption function but without reading a key
         scanf("%d", &choice); //saves the choice of the user to the variable then continues to switch case to carry out the function
 
         switch (choice) {
@@ -45,26 +45,26 @@ int main() {
                 /*Case 1: carries out the shift function. It is a rotational cipher encryption. It reads from a file and allows the user to input the key, then printing the rotated message to the console*/
 
             case 1: printf("The original message is:    %s\n", message);
-                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");
-                fgets(key, 3, cipherkey);
-                keyValue = atoi(key);
+                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");   //opens file "key" in desktop folder "Cipher"
+                fgets(key, 3, cipherkey);   //reads the string from "key" and saves it to cipherkey
+                keyValue = atoi(key);   //converts the string read from "key" to an integer
                 printf("The key is: %d\n", keyValue);
                 rotationEncryption(message, keyValue);
                 printf("The altered message is:     %s\n", message); //prints out the encrypted message
-                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");//prints to a file "output" in desktop folder "Cipher"
                 fputs(message, output);
                 break;
 
                 /*Case 2: carries out the rotation Decryption function. It is a rotational cipher decryption. It reads from a file and allows the user to input a key to decrypt by. At this point it can only decrypt by brute force attack. It prints the unencrypted message to the console*/
 
             case 2: printf("The original message is:    %s\n", message);
-                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");
-                fgets(key, 3, cipherkey);
-                keyValue = atoi(key);
+                cipherkey = fopen("/Users/Sarebear/Desktop/Cipher/key.txt", "r");//opens file "key" in desktop folder "Cipher"
+                fgets(key, 3, cipherkey);   //reads the string from "key" and saves it to cipherkey
+                keyValue = atoi(key);   //converts the string read from "key" to an integer
                 printf("The key from file is:   %d\n", keyValue);
                 rotationDecryption(message, text, keyValue);
                 printf("The reset message is:       %s\n", text);
-                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");//prints to a file "output" in desktop folder "Cipher"
                 fputs(text, output);
                 break;
 
@@ -73,7 +73,7 @@ int main() {
             case 3: printf("Original message is:    %s\n", message);
                 substitutionEncryption(message);
                 printf("Substituted message is: %s\n", message);
-                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");//prints to a file "output" in desktop folder "Cipher"
                 fputs(message, output);
                 break;
 
@@ -82,7 +82,7 @@ int main() {
             case 4: printf("Original encrypted message is:  %s\n", message);
                 substitutionDecryption(message);
                 printf("Decrypted message is:           %s\n", message);
-                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");//prints to a file "output" in desktop folder "Cipher"
                 fputs(message, output);
                 break;
 
@@ -90,29 +90,30 @@ int main() {
             case 5: printf("Original encrypted message: %s\n", message);
                     substitutionDecryptNoKey(message);
                 printf("Decrypted message is:       %s\n", message);
-                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");//prints to a file "output" in desktop folder "Cipher"
                 fputs(message, output);
                 break;
 
-            case 6: //decryption by brute force
+            case 6: //decryption by brute force so tries all values of "key" from 0 through to 26
                 printf("The original message is:    %s\n", message);
-                for (keyValue = 0; keyValue < 27; keyValue++) {
-                    rotationDecryption(message, text, keyValue);
-                    printf("\nWhen the key is %d, message is: %s\n", keyValue, text);
+                for (keyValue = 0; keyValue < 27; keyValue++) { //
+                    rotationDecryption(message, text, keyValue); //when keyvalue is between 0 and 26 it runs the function rotationDecryption
+                    printf("\nWhen the key is %d, message is: %s\n", keyValue, text); //will print 27 times
                     }
-                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w");
-                fputs(text, output);
+                output = fopen("/Users/Sarebear/Desktop/Cipher/output.txt", "w"); //prints to a file "output" in desktop folder "Cipher"
+                fputs(text, output); //puts the information within this file
                 break;
 
             default: printf("Try again, but this time choose an option that is actually there\n"); //the user has input something other than 1, 2, 3, or 4 as they have either misunderstood the instructions or something has gone wrong. This allows them to try again.
                 break;
         }
-    } while (choice > 6);
+    } while (choice > 6); //Does this loop once. If the user enters a number greater than 6 it will repeat as it assumes the error has occured on the users part
 
     
 
 }
 
+/*Defninition of rotation encryption function. This will be used to encrypt a message using a rotation key that is read from a file*/
 
 void rotationEncryption(char *info, int shiftFactor) { //function shift takes an array and adds a shift factor to each of the individual elements
     int n;
@@ -143,6 +144,8 @@ void rotationEncryption(char *info, int shiftFactor) { //function shift takes an
     
 }
 
+/*Function definition for decryption of rotation cipher*/
+//This will be used to decrypt a rotation cipher using a known key read from a file
 void rotationDecryption(char *codedInfo,char *decoded, int resetFactor) {
     int n;
     
@@ -172,6 +175,8 @@ void rotationDecryption(char *codedInfo,char *decoded, int resetFactor) {
     
 }
 
+/*Definition of function that encrypts an input using a key based on an encryption key read from a file*/
+
 void substitutionEncryption(char *content) {
     char alpha[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     char beta[1000];
@@ -193,6 +198,9 @@ void substitutionEncryption(char *content) {
         }
     }
 }
+
+/*Definition of substitution decryptiong function which will be used to decrypt a substitution cipher by reading a decryption key from file and assigning
+it to an array known as beta*/
 
 void substitutionDecryption(char *codedContent) {
     
@@ -226,6 +234,10 @@ void substitutionDecryption(char *codedContent) {
     
     
 }
+
+//Definition for substitution decryption function when no key is known.
+//It does not work perfectly but replaces the most common letters in the message with the most common letter in the English language
+//Also splits the message into words which can be solved easier
 
 void substitutionDecryptNoKey(char *passedMessage) {
     char englishLetters[26] = "ETAOINSRHLDCUMFPGWYBVKXJQZ"; //the most common letters in the English language in descending order
@@ -336,3 +348,4 @@ void substitutionDecryptNoKey(char *passedMessage) {
     
     
 }
+
