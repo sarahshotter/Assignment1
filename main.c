@@ -23,7 +23,6 @@ int main() {
     FILE *input;//file where input is read from before the user decides what to do with the information
     FILE *cipherkey;//file where key is read from
     FILE *output;//file where output is printed to
-    FILE *dictionary;//contains the most common words in the English language
 
     input = fopen("/Users/Sarebear/Desktop/Cipher/input.txt", "r"); //reads the file from this location
     fgets(message, 1000, input); //takes the file up to 1000 characters and stores it in the array message which was declared earlier
@@ -280,13 +279,17 @@ void substitutionDecryptNoKey(char *passedMessage) {
     }
     printf("\nThe new message reads:  %s\n", passedMessage);
     
+    char tempMessage[(int)messageLength];
+    
+    strcpy(tempMessage, passedMessage);
+    
     int wordCount = 0; //counts how many words in the message throughout the while loop
-    char *array[1000]; //the array my tokens (words) are being saved to
+    char *final[1000]; //the array my tokens (words) are being saved to
     int x = 0;
     char *word; //my token is called word
-    word = strtok(passedMessage, " ,.?-…"); //splits the string into words whenever one of the symbols in "" occurs
+    word = strtok(tempMessage, " ,.?-…"); //splits the string into words whenever one of the symbols in "" occurs
     while (word != NULL) { //whenever the word is not null
-        array[x++] = word;
+        final[x++] = word;
         word = strtok(NULL, " ,.?-…");
         wordCount++;
     }
@@ -294,9 +297,42 @@ void substitutionDecryptNoKey(char *passedMessage) {
     printf("There are %d words in the message\n", wordCount);
     
     for(x = 0; x < wordCount; x++) {
-        printf("Word %d is:  %s\n", x, array[x]);
+        printf("Word %d is:  %s\n", x, final[x]);
     }
     
 
+    char wordfile[10000];
+    
+    FILE *dictionary;//contains the most common words in the English language
+    dictionary = fopen("/Users/Sarebear/Desktop/Cipher/dictionary.txt", "r");
+    fgets(wordfile, 10000, dictionary);
+    
+    //separate the parts of wordfile into words as well
+    //then compare the words of wordfile to the words in the message
+    //if they match up then sweet
+    //if they do not match up then thats not as nice
+    
+    
+    char *wordCollection[10000]; //the array my tokens (words) are being saved to
+    int y = 0;
+    char *term; //my token is called word
+    term = strtok(wordfile, " "); //splits the string into words whenever one of the symbols in "" occurs
+    while (term != NULL) { //whenever the word is not null
+        wordCollection[x++] = term;
+        term = strtok(NULL, " ");
+    }
+    
+    
+    for (x = 0; x < wordCount; x++) {
+        for (y = 0; y < 10000; y++) {
+            if (final[x] == wordCollection[y]) {
+                printf("Word %s = %s found\n", final[x], wordCollection[y]);
+            }
+            else {
+                break;
+            }
+        }
+    }
+    
+    
 }
-
